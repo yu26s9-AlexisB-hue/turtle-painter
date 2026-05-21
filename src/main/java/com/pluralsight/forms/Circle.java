@@ -16,11 +16,11 @@ public class Circle extends Shapes{
         turtle.goTo(location.getX(), location.getY());
         turtle.penDown();
 
-        int radius;
+        double spin = (.1 * size);
 
-        for(int i = 0; i < 360; i++){
-            turtle.turnRight(size * 0.02);
-            turtle.forward(1);
+        for(int i = 0; i < spin; i++){
+            turtle.turnRight(10);
+            turtle.forward(10);
         }
     }
 }
