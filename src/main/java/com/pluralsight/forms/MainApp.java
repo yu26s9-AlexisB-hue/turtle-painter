@@ -4,96 +4,82 @@ import java.awt.*;
 
 public class MainApp
 {
-    public static void main(String[] args)
-    {
-        // This starter code to get you familiar with how
-        // the TurtleLogo application works
+    public static void main(String[] args) {
+        int width = Console.promptForInt("World Width: ");
+        int height = Console.promptForInt("World Height: ");
 
-        // The world is your canvas
-        World world = new World(400, 400);
-        Turtle turtle = new Turtle(world,0, -100);
-        
-        int width = 200;
-        int height = 200;
+        World world = new World(width, height);
+        Turtle turtle = new Turtle(world);
 
-        // calculate the hypotenuse (diagonal)
-        // a2 + b2 = c2
-        double widthSquared = Math.pow(width, 2);
-        double heightSquared = Math.pow(height, 2);
-        double hypotenuse = Math.sqrt(widthSquared + heightSquared);
+        boolean running = true;
 
+        while(running){
 
-        turtle.setPenWidth(10);
-        turtle.setColor(Color.BLUE);
+            String prompt = """
+                    1 - Add Shape
+                    2 - Save Image
+                    0 - Exit
+                    """;
 
-//        //Draws a square
-//        int s = 0;
-//        do{
-//            turtle.turnRight(90);
-//            turtle.forward(70);
-//            s++;
-//        }while (s < 4);
+            //Takes and returns the users input into the command.
+            int command = Console.promptForInt(prompt);
 
+            switch (command){
 
-        //Draws a circle
-//        int c = 0;
-//        do{
-//            turtle.turnRight(5);
-//            turtle.forward(5);
-//            c++;
-//        }while(c < 71);
+                case 1:
+                    Shapes shape = drawShapes(turtle);
+                    shape.paint();
+                    break;
 
+                case 0:
+                    running = false;
+                    break;
 
+            }
+        }
+    }
 
-        //makes the 't' shape
-//        turtle.turnRight(90);
-//        turtle.forward(100);
-//        turtle.turnRight(90);
-//        turtle.backward(-100);
-//        turtle.forward(-200);
-//        turtle.backward(-100);
-//        turtle.turnLeft(90);
-//        turtle.forward(100);
+    private static Shapes drawShapes(Turtle turtle){
+        String prompt = """
+                1 - Square
+                2 - Triangle
+                3 - Circle
+                """;
+        int choice = Console.promptForInt(prompt);
+        Color color = Console.promptForColor("Color for turtle: ");
+        int border = Console.promptForInt("Border width: ");
+        int x = Console.promptForInt("Enter x: ");
+        int y = Console.promptForInt("Enter y: ");
+        int size = Console.promptForInt("How big do you want your shape: ");
 
-        int hc = 0;
-        do{
-            turtle.turnRight(5);
-            turtle.forward(5);
-            hc++;
-        }while(hc < 52);
-        turtle.turnRight(100);
-        turtle.forward(50);
-        turtle.turnLeft(90);
-        turtle.forward(60);
+        Point location = new Point(x,y);
 
-        turtle.penUp();
-        turtle.goTo(-25,50);
-        turtle.setColor(Color.RED);
-        turtle.penDown();
-        turtle.forward(45);
-
-        int j = 0;
-        do{
-            turtle.turnLeft(15);
-            turtle.forward(5);
-            j++;
-        }while(j < 10);
+        turtle.setPenWidth(border);
+        turtle.setColor(color);
 
 
+        Shapes shape = null;
+        //todo:How to make the color to be promptable.
+        switch (choice){
+            case 1:
+                shape = new Square(turtle,location,color,border,size);
+                break;
+
+            case 2:
+                shape = new Triangle(turtle,location,color,border,size);
+                break;
+
+            case 3:
+                shape = new Circle(turtle,location,color,border,size);
+                break;
+
+            default:
+                System.out.println("Invalid Entry.");
+
+        }
 
 
-
-
-
-//
-//        turtle.penUp();
-//        turtle.goTo(50, 50);
-//        turtle.turnRight(90);
-//
-//        turtle.penDown();
-//        turtle.forward(hypotenuse);
-
-
+        return shape;
 
     }
 }
